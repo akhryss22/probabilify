@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyCqmKLo802ojAxqo5GU118rmQX5s1zaqjA",
+    apiKey: "YOUR_API_KEY_HERE",
     authDomain: "probabilify.firebaseapp.com",
     projectId: "probabilify",
     storageBucket: "probabilify.firebasestorage.app",

@@ -1,0 +1,779 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Probabilify - AI Math Tutor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #f7746d;
+            --dark-main: #f7746d;
+            --header-bg: #f3f6fa;
+            --text-color: #444;
+            --light-bg: #f8f9fa;
+            --dark-text: #333333;
+            --medium-text: #555555;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 2em auto;
+            max-width: 1000px;
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 2em;
+            background: var(--header-bg);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            text-align: center;
+        }
+
+        .title-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .title-group h2 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 700;
+            color: #f7746d;
+            letter-spacing: -0.025em;
+        }
+
+        .home-button {
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: #f7746d;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-button:hover {
+            background: #f7746d;
+            transform: scale(1.05);
+        }
+
+        .header-content p {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 300;
+            color: #777;
+        }
+
+        .bot-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bot-avatar i {
+            font-size: 1.8em;
+            color: white;
+        }
+
+        .bot-info {
+            text-align: center;
+        }
+
+        .bot-info h2 {
+            margin: 0;
+            font-size: 1.6em;
+            font-weight: 600;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .bot-info p {
+            margin: 0.3em 0 0 0;
+            font-size: 1em;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2em;
+            background: var(--light-bg);
+        }
+
+        .message {
+            max-width: 80%;
+            margin-bottom: 1.5em;
+            position: relative;
+            font-size: 15pt;
+            line-height: 1.65em;
+        }
+
+        .message.user {
+            margin-left: auto;
+            background: #f7746d;
+            color: white;
+            border-radius: 15px 15px 0 15px;
+            padding: 1em 1.5em;
+        }
+
+        .message.bot {
+            margin-right: auto;
+            background: white;
+            color: #777;
+            border-radius: 15px 15px 15px 0;
+            padding: 1em 1.5em;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .message.bot pre {
+            background: #f1f3f5;
+            padding: 1em;
+            border-radius: 8px;
+            margin: 0.5em 0;
+            overflow-x: auto;
+        }
+
+        .chat-input {
+            padding: 1.5em;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 1em;
+            align-items: center;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            gap: 1em;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 0.5em;
+        }
+
+        .attach-button {
+            background: none;
+            border: none;
+            color: #f7746d;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .attach-button:hover {
+            background: rgba(128, 0, 0, 0.1);
+        }
+
+        #textInput {
+            flex: 1;
+            padding: 0.8em 1.2em;
+            border: none;
+            background: none;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 300;
+            font-size: 15pt;
+            color: #777;
+            line-height: 1.65em;
+        }
+
+        #textInput:focus {
+            outline: none;
+            border-color: #f7746d;
+            box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
+        }
+
+        #textInput::placeholder {
+            color: #999;
+            font-weight: 300;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 1em 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .image-preview-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #f7746d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .welcome-section {
+            background: var(--header-bg);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+            width: 100%;
+            padding: 3em 0;
+            margin-bottom: 3em;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .welcome-message {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+
+        .welcome-message h1 {
+            color: #f7746d;
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            font-weight: 700;
+            text-shadow: none;
+            letter-spacing: -0.025em;
+            line-height: 1.65em;
+        }
+
+        .welcome-message p {
+            font-size: 15pt;
+            line-height: 1.65em;
+            color: #777;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2em;
+            margin: 3em auto;
+            padding: 0 2em;
+            max-width: 1200px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5em;
+            color: #f7746d;
+            margin-bottom: 0.5em;
+            background: rgba(128, 0, 0, 0.1);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 1em auto;
+        }
+
+        .feature-card h3 {
+            color: #777;
+            margin-bottom: 0.8em;
+            font-size: 1.2em;
+            font-weight: 600;
+            line-height: 1.65em;
+        }
+
+        .feature-card p {
+            color: #777;
+            font-size: 15pt;
+            line-height: 1.65em;
+        }
+
+        @media screen and (max-width: 768px) {
+            .chat-container {
+                height: 85vh;
+                margin: 1em;
+            }
+
+            .welcome-section {
+                padding: 2em 0;
+            }
+
+            .welcome-message h1 {
+                font-size: 1.8em;
+            }
+
+            .welcome-message p {
+                font-size: 1.1em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1em;
+                gap: 1.5em;
+            }
+
+            .feature-card {
+                padding: 1.5em;
+            }
+
+            .chat-header {
+                padding: 1.5em;
+            }
+
+            .home-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .bot-info h2 {
+                font-size: 1.3em;
+            }
+
+            .bot-info p {
+                font-size: 0.9em;
+            }
+
+            * {
+                font-size: 13pt;
+            }
+        }
+
+        #sendButton {
+            background: #f7746d;
+        }
+
+        #sendButton:hover {
+            background: #f7746d;
+        }
+
+        .home-button:hover, 
+        .attach-button:hover,
+        #sendButton:hover {
+            background: #f7746d;
+        }
+
+        /* Top navigation */
+        .top-nav {
+            background: #f3f6fa;
+            padding: 1em 2em;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .home-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            color: #f7746d;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+
+        .home-nav:hover {
+            color: #f7746d;
+            transform: translateX(-5px);
+        }
+
+        .home-nav i {
+            color: inherit;
+        }
+
+        /* Updated header styles */
+        .welcome-section {
+            padding: 3em 0;
+            text-align: center;
+            background: #f3f6fa;
+        }
+
+        .welcome-message h1 {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 800;
+            font-size: 3.2em;
+            color: #f7746d;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.3em;
+            line-height: 1.2;
+            text-transform: none;
+        }
+
+        .welcome-message .subtitle {
+            font-size: 1.5em;
+            color: #555;
+            font-weight: 400;
+            margin-bottom: 1.5em;
+            line-height: 1.4;
+        }
+
+        .title-group h2 {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #f7746d;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.2em;
+            line-height: 1.2;
+        }
+
+        .header-content .subtitle {
+            font-size: 1.3em;
+            color: #555;
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Feature cards update */
+        .feature-card h3 {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #f7746d;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+        }
+
+        .feature-card .description {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        @media screen and (max-width: 768px) {
+            .welcome-message h1 {
+                font-size: 2.5em;
+            }
+
+            .welcome-message .subtitle {
+                font-size: 1.3em;
+            }
+
+            .title-group h2 {
+                font-size: 2.2em;
+            }
+
+            .header-content .subtitle {
+                font-size: 1.1em;
+            }
+
+            .top-nav {
+                padding: 0.8em 1.5em;
+            }
+        }
+
+        /* Header text styles */
+        .header-title {
+            font-size: 3.75rem;
+            font-weight: 700;
+            color: #f7746d;
+            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.2));
+            font-family: 'Source Sans Pro', sans-serif;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .personality-type {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #555;
+            text-align: center;
+            margin-bottom: 1em;
+            font-family: 'Source Sans Pro', sans-serif;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));
+        }
+
+        .welcome-message .subtitle {
+            font-size: 1.5em;
+            color: #555;
+            font-weight: 500;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .welcome-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 40vh;
+            background: #f3f6fa;
+            padding: 3em 1em;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+                margin-bottom: 0.5em;
+            }
+
+            .personality-type {
+                font-size: 1.4em;
+                margin-bottom: 0.8em;
+            }
+
+            .welcome-message .subtitle {
+                font-size: 1.2em;
+            }
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #f7746d;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px; /* Space between text and spinner */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="homepage is-preload">
+    <div class="top-nav">
+        <a href="index.html" class="home-nav">
+            <i class="fas fa-home"></i>
+            <span>Back to Probabilify</span>
+        </a>
+    </div>
+
+    <div class="welcome-section">
+        <div class="welcome-message">
+            <h1 class="header-title">Your AI Tutor</h1>
+            <h2 class="personality-type">Your AI-Powered Guide to Normal Distribution!</h2>
+        
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-brain"></i>
+            <h3>Smart Learning Path</h3>
+            <p class="description">Customized learning experience that adapts to your understanding and pace</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Real-Time Assistance</h3>
+            <p class="description">Get instant help with complex statistical concepts and problem-solving</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Comprehensive Support</h3>
+            <p class="description">From basic concepts to advanced topics in Statistics and Probability</p>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-content">
+                <h2 class="header-title">INTERACTIVE LEARNING</h2>
+                <p class="subtitle">Your personal AI companion for mastering Statistics and Probability</p>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here -->
+        </div>
+        <div class="chat-input">
+            <div class="input-group">
+                <button class="attach-button" onclick="document.getElementById('imageInput').click()">
+                    <i class="fas fa-image"></i>
+                </button>
+                <input type="text" id="textInput" placeholder="Ask me anything about statistics..." onkeypress="checkEnter(event)">
+                <input type="file" id="imageInput" accept="image/*" style="display: none" onchange="handleImageUpload(event)">
+            </div>
+            <button id="sendButton" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedImage = null;
+        const chatMessages = document.getElementById('chatMessages');
+        const textInput = document.getElementById('textInput');
+
+        function addMessage(sender, text, image = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            if (text) {
+                messageDiv.textContent = text;
+            }
+            
+            if (image) {
+                const img = document.createElement('img');
+                img.src = image;
+                img.className = 'preview-image';
+                messageDiv.appendChild(img);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function fetchResponse(userMessage) {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer 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",
+                    "HTTP-Referer": "https://probabilify.com",
+                    "X-Title": "Probabilify",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "model": "qwen/qwen2.5-vl-72b-instruct:free",
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": userMessage
+                        }
+                    ]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const message = textInput.value.trim();
+            if (message || selectedImage) {
+                // Add user message to UI
+                addMessage('user', message, selectedImage);
+                
+                // Show loading indicator
+                addMessage('bot', '...');
+                
+                // Send to backend
+                const response = await fetchResponse(message);
+                addMessage('bot', response);
+                
+                // Clear input and image
+                textInput.value = '';
+                selectedImage = null;
+                const previewContainer = document.querySelector('.image-preview-container');
+                if (previewContainer) {
+                    previewContainer.remove();
+                }
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    
+                    // Remove existing preview
+                    const existingPreview = document.querySelector('.image-preview-container');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
+
+                    // Create preview
+                    const previewContainer = document.createElement('div');
+                    previewContainer.className = 'image-preview-container';
+                    
+                    const img = document.createElement('img');
+                    img.src = selectedImage;
+                    img.className = 'preview-image';
+                    
+                    const removeButton = document.createElement('button');
+                    removeButton.className = 'remove-image';
+                    removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                    removeButton.onclick = removeImage;
+
+                    previewContainer.appendChild(img);
+                    previewContainer.appendChild(removeButton);
+                    
+                    const chatMessages = document.getElementById('chatMessages');
+                    chatMessages.appendChild(previewContainer);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            selectedImage = null;
+            const previewContainer = document.querySelector('.image-preview-container');
+            if (previewContainer) {
+                previewContainer.remove();
+            }
+        }
+
+        // Add event listeners
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        textInput.addEventListener('keypress', checkEnter);
+    </script>
+</body>
+</html> 

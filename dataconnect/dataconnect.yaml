@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "html5up-strongly-typed"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "html5up-strongly-typed-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

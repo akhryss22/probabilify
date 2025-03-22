@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Probabilify - Login</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 2em;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.8em;
+            margin: 0.5em 0;
+            border: 2px solid #eee;
+            border-radius: 5px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 1em;
+            background: var(--main-maroon);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+
+        .login-form button:hover {
+            background: #6a0012;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 1em;
+            display: none;
+        }
+
+        .info-message {
+            background: #f5f5f5;
+            padding: 1em;
+            border-radius: 5px;
+            margin: 1em 0;
+            font-size: 0.9em;
+            color: #666;
+            border-left: 3px solid var(--main-maroon);
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div class="login-container">
+        <h2>Welcome to Probabilify</h2>
+        <p>Please sign in with your provided credentials</p>
+        
+        <div class="info-message">
+            <p><strong>Note:</strong> Your login credentials have been sent to your Microsoft Teams account by the research team. If you haven't received your credentials, please contact any of the researchers through Teams.</p>
+        </div>
+
+        <div class="login-form">
+            <input type="email" id="email" placeholder="Mapua Email (@mymail.mapua.edu.ph)" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="loginButton">Sign In</button>
+            <p id="errorMessage" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script>
+        // First, make sure we have all required Firebase SDKs
+        document.write(`
+            <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"><\/script>
+            <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"><\/script>
+            <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"><\/script>
+        `);
+
+        // Wait for Firebase scripts to load
+        window.onload = function() {
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyCqmKLo802ojAxqo5GU118rmQX5s1zaqjA",
+                authDomain: "probabilify.firebaseapp.com",
+                projectId: "probabilify",
+                storageBucket: "probabilify.firebasestorage.app",
+                messagingSenderId: "214477200156",
+                appId: "1:214477200156:web:ded26b618399b4363e38d9",
+                measurementId: "G-VWDXCCV19Z"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            // Get DOM elements
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const loginButton = document.getElementById('loginButton');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Login function
+            async function handleLogin() {
+                console.log('Login attempt started'); // Debug log
+                
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                // Show we're processing
+                loginButton.disabled = true;
+                loginButton.textContent = 'Signing in...';
+                errorMessage.style.display = 'none';
+
+                try {
+                    console.log('Attempting login with:', email); // Debug log
+                    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                    console.log('Login successful:', userCredential); // Debug log
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Login error:', error); // Debug log
+                    errorMessage.textContent = 'Invalid email or password. Please check your credentials.';
+                    errorMessage.style.display = 'block';
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Sign In';
+                }
+            }
+
+            // Add click event listener
+            loginButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission
+                handleLogin();
+            });
+
+            // Add Enter key support
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleLogin();
+                }
+            });
+
+            // Check if user is already logged in
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('User already logged in:', user.email); // Debug log
+                    window.location.href = 'index.html';
+                }
+            });
+        };
+    </script>
+</body>
+</html> 

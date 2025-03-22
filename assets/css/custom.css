@@ -1,0 +1,501 @@
+/* Learning Path Styles */
+.content-module {
+    margin-bottom: 2em;
+    padding: 1em;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.lesson-box {
+    margin: 1em 0;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background: #f5f5f5;
+}
+
+.status-badge {
+    padding: 0.3em 0.8em;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.status-badge.completed {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-badge.in-progress {
+    background: #2196F3;
+    color: white;
+}
+
+.lesson-content {
+    padding: 1em;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: #000;
+}
+
+.video-container img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1em 2em;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.lesson-resources {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+/* Progress Card */
+.progress-card {
+    background: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+/* Quiz Styles */
+.quiz-box {
+    background: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    margin: 1em 0;
+}
+
+.options label {
+    display: block;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    background: #f5f5f5;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* AI Tutor Chat */
+.ai-tutor-widget {
+    margin-top: 2em;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-container {
+    height: 80vh;
+    max-width: 1200px;
+    margin: 2em auto;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 2em;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.message {
+    max-width: 80%;
+    padding: 1.5em;
+    border-radius: 15px;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+.message.bot-message {
+    background: #f5f6fa;
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+.message.bot-message ul {
+    margin: 1em 0;
+    padding-left: 1.5em;
+}
+
+.message.bot-message li {
+    margin: 0.5em 0;
+}
+
+.chat-input-container {
+    padding: 1.5em;
+    margin-top: auto;
+}
+
+.chat-input input {
+    padding: 1em 1.5em;
+    font-size: 1.1em;
+}
+
+.chat-input input::placeholder {
+    color: #95a5a6;
+}
+
+.chat-input button {
+    background: #f7746d;
+    color: white;
+}
+
+.chat-input button:hover {
+    background: #ff8b84;
+}
+
+/* Reset to original color scheme */
+:root {
+    --main-orange: #f7746d;      /* Main orange */
+    --light-orange: #ff8b84;     /* Lighter orange for hover */
+    --dark-blue: #2c3e50;        /* Dark blue for text */
+    --light-blue: #34495e;       /* Light blue for secondary text */
+    --bg-light: #f5f6fa;         /* Light background */
+}
+
+/* Header and Navigation */
+#header {
+    background-color: var(--main-orange) !important;
+}
+
+#nav > ul > li > a:hover {
+    background: var(--light-orange);
+}
+
+#nav > ul > li.current > a {
+    background: var(--main-orange);
+}
+
+/* Buttons */
+.button {
+    background: var(--main-orange);
+}
+
+.button:hover {
+    background: var(--light-orange);
+}
+
+.button.alt {
+    border-color: var(--main-orange);
+    color: var(--main-orange);
+}
+
+.button.alt:hover {
+    background: var(--main-orange);
+    color: #fff;
+}
+
+/* Banner and Sections */
+#banner {
+    background: var(--main-orange);
+}
+
+.wrapper.style1 {
+    background: var(--main-orange);
+}
+
+/* Chat Interface Specific */
+.chat-header {
+    background: var(--dark-blue);
+    color: white;
+}
+
+.input-option {
+    border-color: var(--main-orange);
+    color: var(--dark-blue);
+}
+
+.input-option:hover, .input-option.active {
+    background: var(--main-orange);
+}
+
+/* Links and Headers */
+a {
+    color: var(--main-orange);
+}
+
+a:hover {
+    color: var(--light-orange);
+}
+
+.box header {
+    color: var(--main-orange);
+}
+
+.major h2 {
+    color: #2c3e50;  /* Dark blue for headings */
+}
+
+.major p {
+    color: #34495e;  /* Slightly lighter blue for subtext */
+}
+
+/* Form Elements */
+.form-button-submit {
+    background-color: var(--main-orange) !important;
+}
+
+.form-button-submit:hover {
+    background-color: var(--light-orange) !important;
+}
+
+/* Researcher Cards */
+.researcher-image {
+    border: 3px solid var(--main-orange);
+}
+
+.researcher-card:hover {
+    border-color: var(--main-orange);
+}
+
+/* Progress indicators */
+.progress-bar .progress {
+    background: var(--main-orange);
+}
+
+.status-badge.completed {
+    background: var(--main-orange);
+}
+
+/* Links */
+h2, h3, h4 {
+    color: var(--dark-blue);
+}
+
+/* Navigation */
+#nav ul li a:hover {
+    background-color: var(--light-orange);
+}
+
+/* Footer */
+#footer {
+    background: #f4f4f4;
+}
+
+#footer header h2 strong {
+    color: var(--main-orange);
+}
+
+/* Social links */
+.social-links a:hover {
+    color: var(--main-orange);
+}
+
+.progress-card {
+    border-color: var(--main-orange);
+}
+
+/* Support Bubble Styles */
+.support-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+}
+
+.bubble-button {
+    width: 60px;
+    height: 60px;
+    background: var(--main-orange);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.bubble-button:hover {
+    transform: scale(1.1);
+    background: var(--light-orange);
+}
+
+.context-tip {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 14px;
+    width: 200px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.context-tip.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.context-tip::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 24px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+}
+
+/* Ensure bubble stays on top */
+#page-wrapper {
+    position: relative;
+}
+
+/* AI Tutor Color Scheme Update */
+.feature-card {
+    border-left: 4px solid var(--main-orange);
+}
+
+.feature-card h3 {
+    color: #2c3e50;  /* Dark blue for feature titles */
+}
+
+.feature-card p {
+    color: #576574;  /* Medium gray for feature descriptions */
+}
+
+.message.bot-message {
+    background: #f5f6fa;
+    color: #2c3e50;
+}
+
+.message.user-message {
+    background: var(--main-orange);
+    color: white;
+}
+
+/* Header text color for AI Tutor page */
+.homepage #header #logo a {
+    color: #ffffff !important;
+}
+
+.homepage #header p {
+    color: #ffffff;
+}
+
+/* Fixed Chat Bubble */
+.fixed-chat-bubble {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #f7746d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
+
+.fixed-chat-bubble i {
+    color: white;
+    font-size: 24px;
+}
+
+.fixed-chat-bubble:hover {
+    transform: scale(1.1);
+    background-color: #ff8b84;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+} 

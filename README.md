@@ -5,7 +5,6 @@
 - **Adaptive Learning Paths:** Personalized based on MBTI results.
 - **Virtual Tutor:** AI-powered chatbot for instant help.
 - **Assessments:** Pretest/posttest evaluations to track progress.
-- **Responsive Design:** Built with Laravel for a smooth web experience.
 
   ## Installation
 1. **Clone the Repository:**
